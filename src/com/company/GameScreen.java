@@ -6,17 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class GameScreen extends JPanel{
+
+    JPanel board, title;
+
     public GameScreen(){
-        JPanel title = new JPanel();
-        JLabel titleWord = new JLabel("CHESS",SwingConstants.CENTER);
-        titleWord.setFont(new Font(Font.SERIF,Font.ITALIC, 100));
-        titleWord.setForeground(GUI.white);
-        title.setLayout(new BorderLayout());
-        title.add(titleWord, BorderLayout.CENTER);
-        title.setBackground(GUI.background);
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
 
-        this.add(title);
+        board = new JPanel();
+        board.setBackground(Color.pink);
 
+        c.weighty = 0;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipadx = 1280;
+        c.ipady = 670;
+        this.add(board,c);
 
     }
 }
