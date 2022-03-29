@@ -100,6 +100,9 @@ public class StartScreen extends JPanel implements ActionListener {
             numPlayers[1].setForeground(GUI.black);
             numPlayers[0].setForeground(GUI.white);
             onePlayer = true;
+            colorSelect[0].setVisible(true);
+            colorSelect[1].setVisible(true);
+            colorChoose.setVisible(true);
         }
         if (e.getSource() == numPlayers[1]){
             numPlayers[0].setBackground(GUI.white);
@@ -107,6 +110,9 @@ public class StartScreen extends JPanel implements ActionListener {
             numPlayers[0].setForeground(GUI.black);
             numPlayers[1].setForeground(GUI.white);
             onePlayer = false;
+            colorSelect[0].setVisible(false);
+            colorSelect[1].setVisible(false);
+            colorChoose.setVisible(false);
         }
         if (e.getSource() == colorSelect[0]){
             colorSelect[1].setBackground(GUI.white);
