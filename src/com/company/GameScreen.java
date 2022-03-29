@@ -9,31 +9,31 @@ import java.awt.event.MouseListener;
 
 public class GameScreen extends JPanel{
 
-    JPanel board, title;
-
+    JPanel playBoard, title;
+    Board board;
     public GameScreen(){
+        board = new Board();
+
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        board = new Board();
-        board.setBackground(Color.pink);
+        playBoard = new chessBoard();
+        playBoard.setBackground(GUI.background);
 
         c.weighty = 0;
         c.gridx = 0;
         c.gridy = 0;
         c.ipadx = 1280;
         c.ipady = 670;
-        this.add(board,c);
+        this.add(playBoard,c);
 
     }
 
-    public class Board extends JPanel implements MouseListener {
-
-
+    public class chessBoard extends JPanel implements MouseListener {
         int startx = 150;
         int starty = 40;
         int width = 50;
-        public Board(){
+        public chessBoard(){
             addMouseListener(this);
         }
 
@@ -59,7 +59,7 @@ public class GameScreen extends JPanel{
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if(x == startx +(i * width) && y == starty + (j * width)){
-                        
+
                     }
                 }
             }
