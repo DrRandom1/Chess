@@ -1,3 +1,5 @@
+package com.company;
+
 public class Move {
     private final int[] position;
     private final Piece piece;

@@ -1,4 +1,4 @@
-import org.jetbrains.annotations.NotNull;
+package com.company;
 
 import java.util.ArrayList;
 
@@ -96,7 +96,7 @@ public class Board {
         board.printBoardState();
     }
 
-    public Piece getPiece(int @NotNull [] position) {
+    public Piece getPiece(int[] position) {
         return board[position[0]][position[1]];
     }
     public Piece getPiece(int row, int column) {

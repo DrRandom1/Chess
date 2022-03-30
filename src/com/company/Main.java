@@ -1,4 +1,4 @@
-import org.jetbrains.annotations.Nullable;
+package com.company;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,7 +29,7 @@ public class Main {
             game.makeMove(moves.get(moveSelection-1));
         }
     }
-    private static int @Nullable [] parsePosition(String string){
+    private static int[] parsePosition(String string){
         int[] position=new int[2];
         if(string.length()!=2){
             return null;
