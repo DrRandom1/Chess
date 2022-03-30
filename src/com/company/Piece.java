@@ -1,16 +1,14 @@
-package com.company;
-
 import java.util.ArrayList;
 
 abstract class Piece {
-    private final Board board;
+    public final Board board;
     private final char color;
     private final char name;
     private int id;
     private static int idIncrement=0;
     private int[] position;
-    int row;
-    int column;
+    public boolean hasMoved=false;
+    public boolean hasMovedLastTurn=false;
 
     public Piece(Board board,char color, char name){
         this.color=color;
@@ -20,7 +18,14 @@ abstract class Piece {
         Piece.idIncrement++;
     }
     public abstract ArrayList<Move> getMoves();
-    public abstract boolean isLegal(Move move);
+    public boolean isLegal(Move move){
+        for (Move legalMove : getMoves()) {
+            if (legalMove.getAmbiguousMoveNotation().equals(move.getAmbiguousMoveNotation())){
+                return true;
+            }
+        }
+        return false;
+    }
     public char getName(){
         return name;
     }
@@ -47,10 +52,15 @@ abstract class Piece {
             for (int column = 0; column < 8; column++) {
                 if(board.getBoard()[row][column]!=null&&board.getBoard()[row][column].getId()==id){
                     position=new int[]{row, column};
-                    this.row=row;
-                    this.column=column;
                 }
             }
         }
+    }
+
+    public boolean canMove() {
+        return !getMoves().isEmpty();
+    }
+    public void moved(){
+        hasMoved=true;
     }
 }

@@ -1,9 +1,11 @@
-package com.company;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 public class Board {
     private final Piece[][] board = new Piece[8][8];
+    private final ArrayList<Piece> pieces=new ArrayList<Piece>();
+
     private final char[] key=new char[]{'a','b','c','d','e','f','g','h'};
     public Board(){
         for (int i = 0; i < 8; i++) {
@@ -14,7 +16,7 @@ public class Board {
                 case 3:board[0][i]=new Queen(this,'w'); break;
                 case 4:board[0][i]=new King(this,'w'); break;
             }
-
+            pieces.add(board[0][i]);
         }
         for (int i = 0; i < 8; i++) {
             switch(i){
@@ -24,18 +26,21 @@ public class Board {
                 case 3:board[7][i]=new Queen(this,'b'); break;
                 case 4:board[7][i]=new King(this,'b'); break;
             }
+            pieces.add(board[7][i]);
 
         }
         for (int i = 0; i < 8; i++) {
             board[1][i]=new Pawn(this,'w');
+            pieces.add(board[1][i]);
         }
         for (int i = 0; i < 8; i++) {
             board[6][i]=new Pawn(this,'b');
+            pieces.add(board[6][i]);
         }
     }
     public void printBoardState(){
         for (int i = 7; i >= 0; i--) {
-            System.out.print("\u001b[1m"+(key[i])+"\u001b[0m  ");
+            System.out.print("\u001b[1m"+(i+1)+"\u001b[0m  ");
             for (int j = 0; j < 8; j++) {
                 Piece piece=board[i][j];
                 System.out.print("\u001b[0m");
@@ -58,7 +63,7 @@ public class Board {
             }
             System.out.print("\n");
         }
-        System.out.println("    1  2  3  4  5  6  7  8");
+        System.out.println("    a  b  c  d  e  f  g  h");
     }
 
     public Piece[][] getBoard() {
@@ -82,14 +87,22 @@ public class Board {
     public Piece move(Move move){
         //return captured piece
         Piece captured = clear(move.getPosition());
-        int[] startPos=move.getPiece().getPosition();
-        clear(move.getPiece());
-        board[move.getRow()][move.getColumn()]=clear(startPos);
+        board[move.getRow()][move.getColumn()]=clear(move.getPiece().getPosition());
         return captured;
     }
 
     public static void main(String[] args) {
         Board board=new Board();
         board.printBoardState();
+    }
+
+    public Piece getPiece(int @NotNull [] position) {
+        return board[position[0]][position[1]];
+    }
+    public Piece getPiece(int row, int column) {
+        return board[row][column];
+    }
+    public ArrayList<Piece> getPieces(){
+        return pieces;
     }
 }

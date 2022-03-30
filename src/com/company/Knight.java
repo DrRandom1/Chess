@@ -1,5 +1,3 @@
-package com.company;
-
 import java.util.ArrayList;
 
 public class Knight extends Piece{
@@ -12,6 +10,10 @@ public class Knight extends Piece{
     }
 
     public boolean isLegal(Move move) {
+        return false;
+    }
+
+    public boolean canMove() {
         return false;
     }
 }

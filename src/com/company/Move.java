@@ -1,17 +1,19 @@
-package com.company;
-
 public class Move {
     private final int[] position;
     private final Piece piece;
+    private final String ambiguousMoveNotation;
+    private final char[] key = new char[]{'a','b','c','d','e','f','g','h'};
 
 
-    public Move(int[] position, Piece piece) {
+    public Move(Piece piece, int[] position) {
         this.position = position;
         this.piece = piece;
+        this.ambiguousMoveNotation = getAmbiguousMoveNotation();
     }
-    public Move(int row, int column, Piece piece) {
+    public Move(Piece piece, int row, int column) {
         this.position = new int[]{row, column};
         this.piece = piece;
+        this.ambiguousMoveNotation = getAmbiguousMoveNotation();
     }
 
     public int[] getPosition() {
@@ -25,5 +27,12 @@ public class Move {
     }
     public int getColumn(){
         return position[1];
+    }
+    public String getAmbiguousMoveNotation(){
+        if(piece.getName()=='p'){
+            return key[position[1]]+""+(position[0]+1);
+        } else{
+            return piece.getName()+""+key[position[1]]+""+(position[0]+1);
+        }
     }
 }
