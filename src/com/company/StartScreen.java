@@ -92,6 +92,27 @@ public class StartScreen extends JPanel implements ActionListener {
         this.add(play,c);
 
     }
+    public void createGame(){
+        Board board = new Board();
+        Player[] players = new Player[2];
+        if(onePlayer){
+            if(pOneWhite){
+                players[0] = new HumanPlayer('w',board);
+                players[1] = new Player('b',board);
+            }
+            else{
+                players[0] = new Player('w',board);
+                players[1] = new HumanPlayer('b',board);
+            }
+
+        }
+        else{
+            players[0] = new HumanPlayer('w',board);
+            players[1] = new HumanPlayer('b',board);
+        }
+        GUI.gameScreen = new GameScreen(players, board);
+        GUI.swapScreen(this, GUI.gameScreen);
+    }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == numPlayers[0]){
@@ -129,8 +150,7 @@ public class StartScreen extends JPanel implements ActionListener {
             pOneWhite = false;
         }
         if(e.getSource() == play){
-            GUI.gameScreen = new GameScreen();
-            GUI.swapScreen(this, GUI.gameScreen);
+            createGame();
         }
     }
 }

@@ -9,10 +9,12 @@ public class GameScreen extends JPanel{
 
     JPanel playBoard;
     Board board;
-    Piece selected;
-    public GameScreen(){
-        board = new Board();
-        board.printBoardState();
+    int[] selected;
+    Player[] players;
+    public GameScreen(Player[] players, Board board){
+        this.board = board;
+        this.players = players;
+
 
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
@@ -56,8 +58,12 @@ public class GameScreen extends JPanel{
             }
             if(selected != null){
                 g.setColor(Color.CYAN);
-                g.drawRect(startX + (selected.getRow() * width), startY + (selected.getColumn() * width),width,width);
+                for(int i = 0; i < 5; i++){
+                    g.drawRect(startX+i + (selected[0] * width), startY+i + (selected[1] * width),width-(i*2),width-(i*2));
+                }
+                g.drawRect(startX + (selected[0] * width), startY + (selected[1] * width),width,width);
             }
+            paintAllPieces(g);
         }
         public int[] posClicked(int x, int y){
             for (int i = 0; i < 8; i++) {
@@ -68,11 +74,26 @@ public class GameScreen extends JPanel{
                     }
                 }
             }
-            return new int[]{-1};
+            return new int[]{-1,-1};
+        }
+        public void paintAllPieces(Graphics g){
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if(board.getPiece(i,j) != null) {
+                        g.setFont(new Font(Font.SERIF,Font.ITALIC, 50));
+                        if(board.getPiece(i,j).getColor() == 'w'){
+                            g.setColor(GUI.white);
+                        }
+                        else{
+                            g.setColor(GUI.black);
+                        }
+                        g.drawString(Character.toString(board.getPiece(i, j).getName()), startX + (i * width) + (width/2), startY + (j * width) + (width/2));
+                    }
+                }
+            }
         }
         public void mouseClicked(MouseEvent e) {
-            int[] index = posClicked(e.getX(), e.getY());
-            selected = board.getBoard()[index[0]][index[1]];
+            selected = posClicked(e.getX(), e.getY());
             this.repaint();
         }
         public void mousePressed(MouseEvent e) {}
