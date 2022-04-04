@@ -1,4 +1,4 @@
-import org.jetbrains.annotations.Nullable;
+
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -6,6 +6,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
+        GUI gooey = new GUI();
         Scanner scanner=new Scanner(System.in);
         Board board=new Board();
         Game game = new Game(board, new Player('w',board), new Player('b',board));
@@ -29,7 +30,7 @@ public class Main {
             game.makeMove(moves.get(moveSelection-1));
         }
     }
-    private static int @Nullable [] parsePosition(String string){
+    private static int[] parsePosition(String string){
         int[] position=new int[2];
         if(string.length()!=2){
             return null;
