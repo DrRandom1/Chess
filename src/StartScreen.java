@@ -1,3 +1,5 @@
+package com.company;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -48,13 +50,13 @@ public class StartScreen extends JPanel implements ActionListener {
             colorSelect[i].setForeground(Color.WHITE);
             switch(i){
                 case(0): numPlayers[0].setBackground(GUI.black);
-                    colorSelect[0].setBackground(GUI.black);
-                    numPlayers[0].setForeground(GUI.white);
-                    colorSelect[0].setForeground(GUI.white);
+                         colorSelect[0].setBackground(GUI.black);
+                         numPlayers[0].setForeground(GUI.white);
+                         colorSelect[0].setForeground(GUI.white);
                 case(1): numPlayers[1].setBackground(GUI.white);
-                    colorSelect[1].setBackground(GUI.white);
-                    numPlayers[1].setForeground(GUI.black);
-                    colorSelect[1].setForeground(GUI.black);
+                         colorSelect[1].setBackground(GUI.white);
+                         numPlayers[1].setForeground(GUI.black);
+                         colorSelect[1].setForeground(GUI.black);
             }
         }
         selection.add(numPlayers[0]);
@@ -89,6 +91,27 @@ public class StartScreen extends JPanel implements ActionListener {
         c.ipady = 40;
         this.add(play,c);
 
+    }
+    public void createGame(){
+        Board board = new Board();
+        Player[] players = new Player[2];
+        if(onePlayer){
+            if(pOneWhite){
+                players[0] = new HumanPlayer('w',board);
+                players[1] = new Player('b',board);
+            }
+            else{
+                players[0] = new Player('w',board);
+                players[1] = new HumanPlayer('b',board);
+            }
+
+        }
+        else{
+            players[0] = new HumanPlayer('w',board);
+            players[1] = new HumanPlayer('b',board);
+        }
+        GUI.gameScreen = new GameScreen(players, board);
+        GUI.swapScreen(this, GUI.gameScreen);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -127,8 +150,7 @@ public class StartScreen extends JPanel implements ActionListener {
             pOneWhite = false;
         }
         if(e.getSource() == play){
-            GUI.gameScreen = new GameScreen();
-            GUI.swapScreen(this, GUI.gameScreen);
+            createGame();
         }
     }
 }
