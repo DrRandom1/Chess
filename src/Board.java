@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Board {
@@ -5,6 +6,14 @@ public class Board {
     private final ArrayList<Piece> pieces=new ArrayList<Piece>();
 
     private final char[] key=new char[]{'a','b','c','d','e','f','g','h'};
+    public Board(Board old, Move move){
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                board[i][j]=old.board[i][j];
+            }
+        }
+        move(move);
+    }
     public Board(){
         for (int i = 0; i < 8; i++) {
             switch(i){
@@ -66,6 +75,15 @@ public class Board {
 
     public Piece[][] getBoard() {
         return board;
+    }
+    public ArrayList<Move> getMoves(char color){
+        ArrayList<Move> moves=new ArrayList<>();
+        for (Piece piece  : pieces) {
+            if (piece.getColor()==color){
+                moves.addAll(piece.getMoves());
+            }
+        }
+        return moves;
     }
     public Piece clear(int row, int column){
         Piece piece=board[row][column];
