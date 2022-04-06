@@ -2,12 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
 public class GameScreen extends JPanel{
 
     JPanel playBoard;
     Board board;
     int[] selected;
+    int[] selectedMove;
     Player[] players;
+    boolean current = true;
     public GameScreen(Player[] players, Board board){
         this.board = board;
         this.players = players;
@@ -26,6 +30,14 @@ public class GameScreen extends JPanel{
         c.ipady = 675;
         this.add(playBoard,c);
 
+    }
+    public Player getCurrentPlayer(){
+        if(current) {
+            return players[0];
+        }
+        else{
+            return players[1];
+        }
     }
 
     public class chessBoard extends JPanel implements MouseListener {
@@ -49,31 +61,20 @@ public class GameScreen extends JPanel{
                         g.setColor(Color.WHITE);
                         color = true;
                     }
-                    g.fillRect(startX + (i * width), startY + (j * width), width, width);
+                    g.fillRect(startX + (j * width), startY + (i * width), width, width);
 
                 }
             }
-            if(selected != null){
-                g.setColor(Color.CYAN);
-                for(int i = 0; i < 5; i++){
-                    g.drawRect(startX+i + (selected[0] * width), startY+i + (selected[1] * width),width-(i*2),width-(i*2));
-                }
-                g.drawRect(startX + (selected[0] * width), startY + (selected[1] * width),width,width);
-            }
             paintAllPieces(g);
-        }
-        public int[] posClicked(int x, int y){
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if(startX +(i * width) <= x && x < startX +((i+1) * width) && startY +(j * width) <= y && y < startY +((j+1) * width)){
-                        System.out.println((i+1) + " " + (j+1));
-                        return new int[]{i, j};
-                    }
-                }
+            if(selected != null) {
+                paintSelectedPeice(g);
             }
-            return new int[]{-1,-1};
+            if(selectedMove != null) {
+                PaintSelectedMove(g);
+            }
         }
-        public void paintAllPieces(Graphics g){
+
+        private void paintAllPieces(Graphics g){
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if(board.getPiece(i,j) != null) {
@@ -84,14 +85,82 @@ public class GameScreen extends JPanel{
                         else{
                             g.setColor(GUI.black);
                         }
-                        g.drawString(Character.toString(board.getPiece(i, j).getName()), startX + (i * width) + (width/2), startY + (j * width) + (width/2));
+                        g.drawString(Character.toString(board.getPiece(i, j).getName()), startX + (j * width) + (width/2), startY + (i * width) + (width/2));
                     }
                 }
             }
         }
-        public void mouseClicked(MouseEvent e) {
-            selected = posClicked(e.getX(), e.getY());
+        private void paintAvailableMoves(Graphics g){
+            for(int i = 0; i < getMoves().size(); i++){
+                g.setColor(Color.pink);
+                for(int j = 0; j < 5; j++) {
+                    g.drawRect(startX + j + (getMoves().get(i).getColumn() * width), startY + j + (getMoves().get(i).getRow() * width), width - (j * 2), width - (j * 2));
+                }
+            }
+        }
+        private ArrayList<Move> getMoves(){
+            return board.getPiece(selected).getMoves();
+        }
+
+        private void paintSelectedPeice(Graphics g){
+            if(selected[0] >= 0 && selected[1] >= 0 && board.getPiece(selected[0],selected[1]) != null){
+                g.setColor(Color.CYAN);
+                for(int i = 0; i < 5; i++){
+                    g.drawRect(startX+i + (selected[1] * width), startY+i + (selected[0] * width),width-(i*2),width-(i*2));
+                }
+                g.drawRect(startX + (selected[1] * width), startY + (selected[0] * width),width,width);
+                paintAvailableMoves(g);
+            }
+        }
+
+        private void PaintSelectedMove(Graphics g) {
+            if(selectedMove[0] >= 0 && selectedMove[1] >= 0){
+                g.setColor(Color.blue);
+                for(int i = 0; i < 5; i++){
+                    g.drawRect(startX+i + (selectedMove[1] * width), startY+i + (selectedMove[0] * width),width-(i*2),width-(i*2));
+                }
+                g.drawRect(startX + (selectedMove[1] * width), startY + (selectedMove[0] * width),width,width);
+            }
+        }
+
+        private int[] posClicked(int x, int y){
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if(startX +(j * width) <= x && x < startX +((j+1) * width) && startY +(i * width) <= y && y < startY +((i+1) * width)){
+
+                        return new int[]{i, j};
+                    }
+                }
+            }
+            return null;
+        }
+
+        private boolean checkPos(int[] pos){
+            for(int i = 0; i < getMoves().size(); i++){
+                if(pos[0] == getMoves().get(i).getPosition()[0] && pos[1] == getMoves().get(i).getPosition()[1]){
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void movePeice(){
+            board.move(new Move(board.getPiece(selected[0],selected[1]), selectedMove));
+            selected = null;
+            selectedMove = null;
+            current = !current;
             this.repaint();
+        }
+        public void mouseClicked(MouseEvent e) {
+            if(board.getPiece(posClicked(e.getX(), e.getY())) != null && getCurrentPlayer().getColor() == board.getPiece(posClicked(e.getX(), e.getY())).getColor()) {
+                selected = posClicked(e.getX(), e.getY());
+                selectedMove = null;
+                this.repaint();
+            }
+            if(selected != null && checkPos(posClicked(e.getX(), e.getY()))){
+                selectedMove =  posClicked(e.getX(), e.getY());
+                movePeice();
+                this.repaint();
+            }
         }
         public void mousePressed(MouseEvent e) {}
         public void mouseReleased(MouseEvent e) {}
