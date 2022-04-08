@@ -16,12 +16,16 @@ public class King extends Piece{
             int[] key=King.key[i];
             if(row+key[0]>=0&&row+key[0]<8&&column+key[1]>=0&&column+key[1]<8
                     &&(board.getPiece(row+key[0],column+key[1])==null||board.getPiece(row+key[0],column+key[1]).getColor()!=getColor())){//does not check checkmate
-                moves.add(new Move(this,row+key[0],column+key[1]));
+                Move newMove=(new Move(this,row+key[0],column+key[1]));
+                if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+                    moves.add(newMove);
+                }
             }
         }
         return moves;
     }
     public boolean isInCheck(){
+        updatePosition();
         //bishop/queen
         int row=getRow();
         int column=getColumn();
@@ -31,39 +35,34 @@ public class King extends Piece{
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
-                if((board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
+                if(board.getPiece(row+counter*key[0],column+counter*key[1])!=null&&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
                         &&board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')){
                     return true;
                 }
                 counter++;
             }
         }
-        //bishop/queen
+        //rook
         for (int i = 0; i < 4; i++) {
             int[] key=Rook.key[i];
             int counter=1;
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
-                if((board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
-                        &&board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')){
+                if((board.getPiece(row+counter*key[0],column+counter*key[1])!=null&&board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'b'
+                        && board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'q')){
                     return true;
                 }
                 counter++;
             }
         }
-        for (int i = 0; i < 4; i++) {
-            int[] key=Rook.key[i];
-            int counter=1;
-            while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
-                    &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
-                    ||(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='r'
-                    &&board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')
-                    &&board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
-                if (board.getPiece(row + counter * key[0], column + counter * key[1]) != null && board.getPiece(row + counter * key[0], column + counter * key[1]).getColor() != this.getColor()) {
-                    counter += 9;
-                }
-                counter++;
+        for (int i = 0; i < 8; i++) {
+            int[] key=Knight.key[i];
+            if(row+key[0]>=0&&row+key[0]<8&&column+key[1]>=0&&column+key[1]<8
+                    &&(board.getPiece(row+key[0],column+key[1])!=null
+                    &&board.getPiece(row+key[0],column+key[1]).getColor()!=this.getColor())
+                    &&board.getPiece(row+key[0],column+key[1]).getName()=='n'){
+                    return true;
             }
         }
         return false;

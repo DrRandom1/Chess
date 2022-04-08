@@ -5,6 +5,7 @@ public class Game {
     private final Player[] players=new Player[2];
     private int currentPlayer;
 
+
     public Game(Board board, Player white, Player black) {
         this.board = board;
         this.players[0] = white;
@@ -14,7 +15,7 @@ public class Game {
 
     public void makeMove(Move move){
         board.move(move);
-        move.getPiece().moved();
+        move.getPiece().hasMoved=true;
         if(currentPlayer==1){
             currentPlayer=0;
         } else{
@@ -40,14 +41,5 @@ public class Game {
     }
     public Player getCurrentPlayer(){
         return players[currentPlayer];
-    }
-
-
-    public static void main(String[] args) {
-        Board board=new Board();
-        Game game = new Game(board, new Player('w',board), new Player('b',board));
-        while(!game.isGameOver()){
-
-        }
     }
 }

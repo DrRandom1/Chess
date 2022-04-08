@@ -9,7 +9,13 @@ public class Board {
     public Board(Board old, Move move){
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j]=old.board[i][j];
+                if(old.board[i][j]!=null){
+                    Piece piece=old.board[i][j].clone(this);
+                    board[i][j]=piece;
+                    pieces.add(piece);
+                }
+
+
             }
         }
         move(move);
@@ -76,15 +82,6 @@ public class Board {
     public Piece[][] getBoard() {
         return board;
     }
-    public ArrayList<Move> getMoves(char color){
-        ArrayList<Move> moves=new ArrayList<>();
-        for (Piece piece  : pieces) {
-            if (piece.getColor()==color){
-                moves.addAll(piece.getMoves());
-            }
-        }
-        return moves;
-    }
     public Piece clear(int row, int column){
         Piece piece=board[row][column];
         board[row][column]=null;
@@ -120,5 +117,23 @@ public class Board {
     }
     public ArrayList<Piece> getPieces(){
         return pieces;
+    }
+    public int[] findKing(char color){
+        for (Piece piece : pieces ) {
+            if(piece.getName()=='k'&&piece.getColor()==color){
+                return piece.getPosition();
+            }
+        }
+        return null;
+    }
+    public King getKing(char color){
+        for (Piece piece : pieces ) {
+            if(piece.getName()=='k'){
+                if(piece.getColor()==color){
+                    return (King)piece;
+                }
+            }
+        }
+        return null;
     }
 }

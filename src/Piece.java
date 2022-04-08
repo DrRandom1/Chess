@@ -4,8 +4,6 @@ abstract class Piece {
     public final Board board;
     private final char color;
     private final char name;
-    private int id;
-    private static int idIncrement=0;
     private int[] position;
     public boolean hasMoved=false;
     public boolean hasMovedLastTurn=false;
@@ -14,9 +12,8 @@ abstract class Piece {
         this.color=color;
         this.board=board;
         this.name=name;
-        this.id=Piece.idIncrement;
-        Piece.idIncrement++;
     }
+
     public abstract ArrayList<Move> getMoves();
     public boolean isLegal(Move move){
         for (Move legalMove : getMoves()) {
@@ -34,9 +31,6 @@ abstract class Piece {
         return color;
     }
 
-    public int getId() {
-        return id;
-    }
     public int[] getPosition() {
         updatePosition();
         return position;
@@ -50,7 +44,7 @@ abstract class Piece {
     public void updatePosition() {
         for (int row = 0; row < 8; row++) {
             for (int column = 0; column < 8; column++) {
-                if(board.getBoard()[row][column]!=null&&board.getBoard()[row][column].getId()==id){
+                if(board.getBoard()[row][column]!=null&&board.getBoard()[row][column]==this){
                     position=new int[]{row, column};
                 }
             }
@@ -62,5 +56,16 @@ abstract class Piece {
     }
     public void moved(){
         hasMoved=true;
+    }
+    public Piece clone(Board board){
+        switch (this.name){
+            case 'p':return new Pawn(board, color);
+            case 'r':return new Rook(board, color);
+            case 'n':return new Knight(board, color);
+            case 'b':return new Bishop(board, color);
+            case 'q':return new Queen(board, color);
+            case 'k':return new King(board, color);
+        }
+        return null;
     }
 }
