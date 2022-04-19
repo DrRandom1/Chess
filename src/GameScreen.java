@@ -6,23 +6,24 @@ import java.util.ArrayList;
 
 public class GameScreen extends JPanel{
 
-    JPanel playBoard;
-    Board board;
+    JPanel playBoard, infoBoard;
+    Game game;
     int[] selected;
     int[] selectedMove;
-    Player[] players;
     boolean current = true;
-    public GameScreen(Player[] players, Board board){
-        this.board = board;
-        this.players = players;
-
-
+    public GameScreen(Game game){
+        this.game = game;
+        
         this.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         playBoard = new chessBoard();
         playBoard.setBackground(GUI.background);
 
+        infoBoard = new JPanel();
+        infoBoard.add(new JLabel("Curent Player"));
+        infoBoard.add()
+        
         c.weighty = 0;
         c.gridx = 0;
         c.gridy = 0;
@@ -32,12 +33,7 @@ public class GameScreen extends JPanel{
 
     }
     public Player getCurrentPlayer(){
-        if(current) {
-            return players[0];
-        }
-        else{
-            return players[1];
-        }
+        return game.getCurrentPlayer();
     }
 
     public class chessBoard extends JPanel implements MouseListener {
@@ -49,6 +45,7 @@ public class GameScreen extends JPanel{
         }
 
         protected void paintComponent(Graphics g) {
+            //g.drawString(players[0].isInCheck() + " " + players[1].isInCheck(), 20,20);
             super.paintComponent(g);
             boolean color = false;
             for (int i = 0; i < 8; i++) {
@@ -77,15 +74,15 @@ public class GameScreen extends JPanel{
         private void paintAllPieces(Graphics g){
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if(board.getPiece(i,j) != null) {
+                    if(game.getBoard().getPiece(i,j) != null) {
                         g.setFont(new Font(Font.SERIF,Font.ITALIC, 50));
-                        if(board.getPiece(i,j).getColor() == 'w'){
+                        if(game.getBoard().getPiece(i,j).getColor() == 'w'){
                             g.setColor(GUI.white);
                         }
                         else{
                             g.setColor(GUI.black);
                         }
-                        g.drawString(Character.toString(board.getPiece(i, j).getName()), startX + (j * width) + (width/2), startY + (i * width) + (width/2));
+                        g.drawString(Character.toString(game.getBoard().getPiece(i, j).getName()), startX + (j * width) + (width/2), startY + (i * width) + (width/2));
                     }
                 }
             }
@@ -99,11 +96,11 @@ public class GameScreen extends JPanel{
             }
         }
         private ArrayList<Move> getMoves(){
-            return board.getPiece(selected).getMoves();
+            return game.getBoard().getPiece(selected).getMoves();
         }
 
         private void paintSelectedPeice(Graphics g){
-            if(selected[0] >= 0 && selected[1] >= 0 && board.getPiece(selected[0],selected[1]) != null){
+            if(selected[0] >= 0 && selected[1] >= 0 && game.getBoard().getPiece(selected[0],selected[1]) != null){
                 g.setColor(Color.CYAN);
                 for(int i = 0; i < 5; i++){
                     g.drawRect(startX+i + (selected[1] * width), startY+i + (selected[0] * width),width-(i*2),width-(i*2));
@@ -144,14 +141,14 @@ public class GameScreen extends JPanel{
             return false;
         }
         public void movePeice(){
-            board.move(new Move(board.getPiece(selected[0],selected[1]), selectedMove));
+            game.makeMove(new Move(game.getBoard().getPiece(selected[0],selected[1]), selectedMove));
             selected = null;
             selectedMove = null;
             current = !current;
             this.repaint();
         }
         public void mouseClicked(MouseEvent e) {
-            if(board.getPiece(posClicked(e.getX(), e.getY())) != null && getCurrentPlayer().getColor() == board.getPiece(posClicked(e.getX(), e.getY())).getColor()) {
+            if(game.getBoard().getPiece(posClicked(e.getX(), e.getY())) != null && getCurrentPlayer().getColor() == game.getBoard().getPiece(posClicked(e.getX(), e.getY())).getColor()) {
                 selected = posClicked(e.getX(), e.getY());
                 selectedMove = null;
                 this.repaint();
