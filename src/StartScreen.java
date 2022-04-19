@@ -59,7 +59,7 @@ public class StartScreen extends JPanel implements ActionListener {
         }
         selection.add(numPlayers[0]);
         selection.add(numPlayers[1]);
-        colorChoose = new JLabel("Which color is Player 1?", SwingConstants.CENTER);
+        colorChoose = new JLabel("What color are you?", SwingConstants.CENTER);
         colorChoose.setFont(new Font(Font.SERIF,Font.ITALIC, 30));
         colorChoose.setForeground(Color.black);
         selection.add(colorChoose);
@@ -108,7 +108,8 @@ public class StartScreen extends JPanel implements ActionListener {
             players[0] = new HumanPlayer('w',board);
             players[1] = new HumanPlayer('b',board);
         }
-        GUI.gameScreen = new GameScreen(players, board);
+        Game game = new Game(board, players);
+        GUI.gameScreen = new GameScreen(game);
         GUI.swapScreen(this, GUI.gameScreen);
     }
 
