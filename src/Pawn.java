@@ -11,9 +11,9 @@ public class Pawn extends Piece{
         int row=getRow();
         int column=getColumn();
         ArrayList<Move> moves=new ArrayList<>();
-        int colorMultiplier=1;//-1 for black
+        int colorMultiplier=-1;//-1 for white
         if(getColor()=='b'){
-            colorMultiplier=-1;
+            colorMultiplier=1;
         }
         if(board.getPiece(row+colorMultiplier,column)==null){
 
