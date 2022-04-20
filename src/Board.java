@@ -23,31 +23,31 @@ public class Board {
     public Board(){
         for (int i = 0; i < 8; i++) {
             switch(i){
-                case 0:case 7:board[0][i]=new Rook(this,'w'); break;
-                case 1:case 6:board[0][i]=new Knight(this,'w'); break;
-                case 2:case 5:board[0][i]=new Bishop(this,'w'); break;
-                case 3:board[0][i]=new Queen(this,'w'); break;
-                case 4:board[0][i]=new King(this,'w'); break;
+                case 0:case 7:board[0][i]=new Rook(this,'b'); break;
+                case 1:case 6:board[0][i]=new Knight(this,'b'); break;
+                case 2:case 5:board[0][i]=new Bishop(this,'b'); break;
+                case 3:board[0][i]=new Queen(this,'b'); break;
+                case 4:board[0][i]=new King(this,'b'); break;
             }
             pieces.add(board[0][i]);
         }
         for (int i = 0; i < 8; i++) {
             switch(i){
-                case 0:case 7:board[7][i]=new Rook(this,'b'); break;
-                case 1:case 6:board[7][i]=new Knight(this,'b'); break;
-                case 2:case 5:board[7][i]=new Bishop(this,'b'); break;
-                case 3:board[7][i]=new Queen(this,'b'); break;
-                case 4:board[7][i]=new King(this,'b'); break;
+                case 0:case 7:board[7][i]=new Rook(this,'w'); break;
+                case 1:case 6:board[7][i]=new Knight(this,'w'); break;
+                case 2:case 5:board[7][i]=new Bishop(this,'w'); break;
+                case 3:board[7][i]=new Queen(this,'w'); break;
+                case 4:board[7][i]=new King(this,'w'); break;
             }
             pieces.add(board[7][i]);
 
         }
         for (int i = 0; i < 8; i++) {
-            board[1][i]=new Pawn(this,'w');
+            board[1][i]=new Pawn(this,'b');
             pieces.add(board[1][i]);
         }
         for (int i = 0; i < 8; i++) {
-            board[6][i]=new Pawn(this,'b');
+            board[6][i]=new Pawn(this,'w');
             pieces.add(board[6][i]);
         }
     }
