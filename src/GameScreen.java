@@ -11,32 +11,53 @@ public class GameScreen extends JPanel{
     int[] selected;
     int[] selectedMove;
     boolean current = true;
+    JLabel black = new JLabel("Black"), white = new JLabel("White");
     public GameScreen(Game game){
         this.game = game;
-        
+
         this.setLayout(new GridBagLayout());
+        this.setBackground(GUI.background);
         GridBagConstraints c = new GridBagConstraints();
 
         playBoard = new chessBoard();
         playBoard.setBackground(GUI.background);
 
         infoBoard = new JPanel();
-        infoBoard.add(new JLabel("Curent Player"));
-        infoBoard.add()
-        
+        infoBoard.setMinimumSize(new Dimension(550, 675));
+        infoBoard.add(new JLabel("Current Player:"));
+        infoBoard.add(white);
+
+
         c.weighty = 0;
         c.gridx = 0;
         c.gridy = 0;
-        c.ipadx = 1280;
+        c.ipadx = 695;
         c.ipady = 675;
         this.add(playBoard,c);
+
+        c.gridx = 0;
+        c.gridy = 0;
+        c.ipadx = 640;
+        c.ipady = 675;
+        this.add(infoBoard);
 
     }
     public Player getCurrentPlayer(){
         return game.getCurrentPlayer();
     }
+    private void updateInfoBoard(){
+        if(getCurrentPlayer().getColor() == 'w'){
+            infoBoard.remove(black);
+            infoBoard.add(white);
+        }
+        else{
+            infoBoard.remove(white);
+            infoBoard.add(black);
+        }
+        infoBoard.updateUI();
+    }
 
-    public class chessBoard extends JPanel implements MouseListener {
+    private class chessBoard extends JPanel implements MouseListener {
         int startX = 40;
         int startY = 41;
         int width = 75;
@@ -140,7 +161,7 @@ public class GameScreen extends JPanel{
             }
             return false;
         }
-        public void movePeice(){
+        private void movePeice(){
             game.makeMove(new Move(game.getBoard().getPiece(selected[0],selected[1]), selectedMove));
             selected = null;
             selectedMove = null;
@@ -157,6 +178,7 @@ public class GameScreen extends JPanel{
                 selectedMove =  posClicked(e.getX(), e.getY());
                 movePeice();
                 this.repaint();
+                updateInfoBoard();
             }
         }
         public void mousePressed(MouseEvent e) {}
