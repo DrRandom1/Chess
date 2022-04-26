@@ -1,12 +1,16 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
+    private final int recursionDepth;
     private final Piece[][] board = new Piece[8][8];
     private final ArrayList<Piece> pieces=new ArrayList<Piece>();
+    private Move lastMove = null;
 
     private final char[] key=new char[]{'a','b','c','d','e','f','g','h'};
     public Board(Board old, Move move){
+        this.recursionDepth=old.recursionDepth+1;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if(old.board[i][j]!=null){
@@ -14,13 +18,12 @@ public class Board {
                     board[i][j]=piece;
                     pieces.add(piece);
                 }
-
-
             }
         }
         move(move);
     }
     public Board(){
+        this.recursionDepth=0;
         for (int i = 0; i < 8; i++) {
             switch(i){
                 case 0:case 7:board[0][i]=new Rook(this,'b'); break;
@@ -52,8 +55,8 @@ public class Board {
         }
     }
     public void printBoardState(){
-        for (int i = 7; i >= 0; i--) {
-            System.out.print("\u001b[1m"+(i+1)+"\u001b[0m  ");
+        for (int i = 0; i <8; i++) {
+            System.out.print("\u001b[1m"+(i)+"\u001b[0m  ");
             for (int j = 0; j < 8; j++) {
                 Piece piece=board[i][j];
                 System.out.print("\u001b[0m");
@@ -76,7 +79,7 @@ public class Board {
             }
             System.out.print("\n");
         }
-        System.out.println("    a  b  c  d  e  f  g  h");
+        System.out.println("    0  1  2  3  4  5  6  7");
     }
 
     public Piece[][] getBoard() {
@@ -100,13 +103,41 @@ public class Board {
     public Piece move(Move move){
         //return captured piece
         Piece captured = clear(move.getPosition());
+//        if (recursionDepth==0){
+//            System.out.println(move.type);
+//            System.out.println(Arrays.toString(move.getPosition()));
+//            System.out.println(Arrays.toString(move.getPiece().getPosition()));
+//            printBoardState();
+//        }
+        if(move.type=='e'){
+            captured=clear(move.getPiece().getRow(),move.getColumn());
+//            if (recursionDepth==0) {
+//                System.out.println(captured);
+//                printBoardState();
+//                System.out.println(move.getRow() - ((Pawn) move.getPiece()).colorMultiplier + ", " + move.getColumn());
+//                System.out.println(captured.getName());
+//            }
+        }
+
+
         board[move.getRow()][move.getColumn()]=clear(move.getPiece().getPosition());
+        lastMove=move;
+        if(move.type=='c'){
+            if(move.getColumn()==6){
+                board[move.getRow()][5]=clear(new int[]{move.getRow(),7});
+            }
+            if(move.getColumn()==1){
+                board[move.getRow()][2]=clear(new int[]{move.getRow(),0});
+            }
+        }
+        if (recursionDepth==0){
+            printBoardState();
+        }
         return captured;
     }
 
     public static void main(String[] args) {
         Board board=new Board();
-        board.printBoardState();
     }
 
     public Piece getPiece(int [] position) {
@@ -136,4 +167,8 @@ public class Board {
         }
         return null;
     }
+    public Move getLastMove(){
+        return lastMove;
+    }
 }
+

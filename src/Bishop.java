@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Bishop extends Piece {
-    public static int[][]key=new int[][]{{-1,-1},{1,-1},{1,1},{-1,-1}};
+    public static int[][]key=new int[][]{{-1,-1},{1,-1},{1,1},{-1,1}};
     public Bishop(Board board, char color) {
         super(board, color,'b');
     }

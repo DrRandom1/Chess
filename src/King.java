@@ -22,6 +22,32 @@ public class King extends Piece{
                 }
             }
         }
+
+        //castle
+        if(!this.hasMoved&&!this.isInCheck()){
+            //castle kingside
+            if (board.getPiece(this.getRow(),7)!=null&&!board.getPiece(this.getRow(),7).hasMoved
+                    &&board.getPiece(this.getRow(),5)==null
+                    &&board.getPiece(this.getRow(),6)==null){
+                if(!new Board(board,new Move(this,row,column+1)).getKing(this.getColor()).isInCheck()
+                        &&!new Board(board,new Move(this,row,column+2)).getKing(this.getColor()).isInCheck()){
+                    Castle newMove=(new Castle(this,row, column+2));
+                    moves.add(newMove);
+                }
+            }
+            //castle queenside
+            if (board.getPiece(this.getRow(),0)!=null&&!board.getPiece(this.getRow(),0).hasMoved
+                    &&board.getPiece(this.getRow(),3)==null
+                    &&board.getPiece(this.getRow(),2)==null
+                    && board.getPiece(this.getRow(),1)==null){
+                if(!new Board(board,new Move(this,row,column-1)).getKing(this.getColor()).isInCheck()
+                        &&!new Board(board,new Move(this,row,column-2)).getKing(this.getColor()).isInCheck()
+                        &&!new Board(board,new Move(this,row,column-3)).getKing(this.getColor()).isInCheck()){
+                    Castle newMove=(new Castle(this,row, column-3));
+                    moves.add(newMove);
+                }
+            }
+        }
         return moves;
     }
     public boolean isInCheck(){
@@ -32,11 +58,13 @@ public class King extends Piece{
         for (int i = 0; i < 4; i++) {
             int[] key=Bishop.key[i];
             int counter=1;
+            //BUGGGGGUGUGUGUGUG
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
-                if(board.getPiece(row+counter*key[0],column+counter*key[1])!=null&&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
-                        &&board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')){
+                if(board.getPiece(row+counter*key[0],column+counter*key[1])!=null
+                        &&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
+                        ||board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')){
                     return true;
                 }
                 counter++;
@@ -49,8 +77,9 @@ public class King extends Piece{
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
-                if((board.getPiece(row+counter*key[0],column+counter*key[1])!=null&&board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'b'
-                        && board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'q')){
+                if((board.getPiece(row+counter*key[0],column+counter*key[1])!=null
+                        &&(board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'r'
+                        ||board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'q'))){
                     return true;
                 }
                 counter++;

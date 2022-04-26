@@ -2,18 +2,25 @@ import java.util.ArrayList;
 
 public class Game {
     private final Board board;
-    private final Player[] players=new Player[2];
+    private Player[] players=new Player[2];
     private int currentPlayer;
+    public Move lastMove=null;
 
 
     public Game(Board board, Player white, Player black) {
         this.board = board;
         this.players[0] = white;
         this.players[1] = black;
-        currentPlayer=1;
+        currentPlayer=0;
+    }
+    public Game(Board board, Player[] players) {
+        this.board = board;
+        this.players=players;
+        currentPlayer=0;
     }
 
     public void makeMove(Move move){
+        System.out.println("In game, "+ move.type);
         board.move(move);
         move.getPiece().hasMoved=true;
         if(currentPlayer==1){
@@ -21,6 +28,7 @@ public class Game {
         } else{
             currentPlayer=1;
         }
+        lastMove=move;
     }
     public boolean isGameOver(){
         for (int i = 0; i < 2; i++) {
@@ -41,5 +49,8 @@ public class Game {
     }
     public Player getCurrentPlayer(){
         return players[currentPlayer];
+    }
+    public Player[] getPlayers(){
+        return players;
     }
 }

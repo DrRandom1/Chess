@@ -1,12 +1,11 @@
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        GUI gooey = new GUI();
+        GUI gui=new GUI();
         Scanner scanner=new Scanner(System.in);
         Board board=new Board();
         Game game = new Game(board, new Player('w',board), new Player('b',board));
@@ -16,8 +15,8 @@ public class Main {
             String input=scanner.nextLine();
             while(parsePosition(input)==null
                     ||board.getPiece(parsePosition(input))==null
-                    ||!board.getPiece(parsePosition(input)).canMove()||
-                    game.getCurrentPlayer().getPieces().contains(board.getPiece(parsePosition(input)))
+                    ||!board.getPiece(parsePosition(input)).canMove()
+                    ||game.getCurrentPlayer().getPieces().contains(board.getPiece(parsePosition(input)))
             ){
                 System.out.println("Invalid Move");
                 input=scanner.nextLine();
@@ -30,7 +29,7 @@ public class Main {
             game.makeMove(moves.get(moveSelection-1));
         }
     }
-    private static int[] parsePosition(String string){
+    private static int [] parsePosition(String string){
         int[] position=new int[2];
         if(string.length()!=2){
             return null;

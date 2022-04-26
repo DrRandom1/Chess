@@ -27,12 +27,15 @@ public class Player {
         return movablePieces;
     }
     public boolean isInCheck(){
-        ArrayList<Piece> movablePieces=new ArrayList<Piece>();
         for (Piece piece : pieces) {
-            if(piece.canMove()){
-                movablePieces.add(piece);
+            if(piece.getName()=='k'){
+                return ((King)piece).isInCheck();
             }
         }
         return false;
+    }
+
+    public char getColor() {
+        return color;
     }
 }
