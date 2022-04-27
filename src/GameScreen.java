@@ -35,7 +35,7 @@ public class GameScreen extends JPanel{
         c.ipady = 675;
         this.add(playBoard,c);
 
-        c.gridx = 0;
+        c.gridx = 1;
         c.gridy = 0;
         c.ipadx = 640;
         c.ipady = 675;
@@ -162,14 +162,7 @@ public class GameScreen extends JPanel{
             return false;
         }
         private void movePeice(){
-            int selectedMoveKey=0;
-            for (int i = 0; i < game.getBoard().getPiece(selected[0],selected[1]).getMoves().size(); i++) {
-                Move move=game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(i);
-                if(move.getPosition()[0]==selectedMove[0]&&move.getPosition()[1]==selectedMove[1]){
-                    selectedMoveKey=i;
-                }
-            }
-            game.makeMove(game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(selectedMoveKey));
+            game.makeMove(new Move(game.getBoard().getPiece(selected[0],selected[1]), selectedMove));
             selected = null;
             selectedMove = null;
             current = !current;
