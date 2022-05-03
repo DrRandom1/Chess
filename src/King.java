@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class King extends Piece{
@@ -92,6 +91,25 @@ public class King extends Piece{
                     &&board.getPiece(row+key[0],column+key[1]).getColor()!=this.getColor())
                     &&board.getPiece(row+key[0],column+key[1]).getName()=='n'){
                     return true;
+            }
+        }
+        if(getColor()=='w'){
+            if(board.getPiece(this.getRow()-1,this.getColumn()-1)!=null
+                    &&board.getPiece(this.getRow()-1,this.getColumn()-1).getColor()=='b'
+                    &&board.getPiece(this.getRow()-1,this.getColumn()-1).getName()=='p'
+                    ||(board.getPiece(this.getRow()-1,this.getColumn()+1)!=null
+                    &&board.getPiece(this.getRow()-1,this.getColumn()+1).getColor()=='b'
+                    &&board.getPiece(this.getRow()-1,this.getColumn()+1).getName()=='p')){
+                return true;
+            }
+        } else{
+            if(board.getPiece(this.getRow()+1,this.getColumn()-1)!=null
+                    &&board.getPiece(this.getRow()+1,this.getColumn()-1).getColor()=='w'
+                    &&board.getPiece(this.getRow()+1,this.getColumn()-1).getName()=='p'
+                    ||(board.getPiece(this.getRow()+1,this.getColumn()+1)!=null
+                    &&board.getPiece(this.getRow()+1,this.getColumn()+1).getColor()=='w'
+                    &&board.getPiece(this.getRow()+1,this.getColumn()+1).getName()=='p')){
+                return true;
             }
         }
         return false;

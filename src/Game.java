@@ -11,12 +11,12 @@ public class Game {
         this.board = board;
         this.players[0] = white;
         this.players[1] = black;
-        currentPlayer=0;
+        currentPlayer=1;
     }
     public Game(Board board, Player[] players) {
         this.board = board;
         this.players=players;
-        currentPlayer=0;
+        currentPlayer=1;
     }
 
     public void makeMove(Move move){

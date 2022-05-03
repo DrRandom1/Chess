@@ -6,6 +6,7 @@ public class Player {
     public ArrayList<Piece> getPieces(){
         return pieces;
     }
+    public boolean isComputerPlayer=false;
     public Player(char color,Board board){
         this.color=color;
         for (Piece piece : board.getPieces()) {

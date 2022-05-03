@@ -72,3 +72,18 @@ class Castle extends Move{
         this.type='c';
     }
 }
+class Promotion extends Move{
+    public Promotion(Piece piece, int[] position) {
+        super(piece, position);
+        this.type='p';
+    }
+
+    public Promotion(Piece piece, int row, int column) {
+        super(piece, row, column);
+        this.type='p';
+    }
+    public Promotion(Move move){
+        super(move.getPiece(), move.getPosition());
+        this.type='p';
+    }
+}

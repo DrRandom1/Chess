@@ -122,6 +122,9 @@ public class Board {
 
         board[move.getRow()][move.getColumn()]=clear(move.getPiece().getPosition());
         lastMove=move;
+        if(move.type=='p'){
+            board[move.getRow()][move.getColumn()]=new Queen(this,move.getPiece().getColor());
+        }
         if(move.type=='c'){
             if(move.getColumn()==6){
                 board[move.getRow()][5]=clear(new int[]{move.getRow(),7});
