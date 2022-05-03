@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameScreen extends JPanel{
@@ -12,6 +16,7 @@ public class GameScreen extends JPanel{
     int[] selectedMove;
     boolean current = true;
     JLabel black = new JLabel("Black"), white = new JLabel("White");
+    JLabel wKing, wQueen, wRook, wBishop;
     public GameScreen(Game game){
         this.game = game;
 
@@ -96,6 +101,7 @@ public class GameScreen extends JPanel{
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if(game.getBoard().getPiece(i,j) != null) {
+                        /*
                         g.setFont(new Font(Font.SERIF,Font.ITALIC, 50));
                         if(game.getBoard().getPiece(i,j).getColor() == 'w'){
                             g.setColor(GUI.white);
@@ -104,6 +110,10 @@ public class GameScreen extends JPanel{
                             g.setColor(GUI.black);
                         }
                         g.drawString(Character.toString(game.getBoard().getPiece(i, j).getName()), startX + (j * width) + (width/2), startY + (i * width) + (width/2));
+                        */
+                        Toolkit t=Toolkit.getDefaultToolkit();
+                        Image myPicture = (t.getImage("src/" + game.getBoard().getPiece(i, j).getColor() + game.getBoard().getPiece(i, j).getName() + ".png"));
+                        g.drawImage(myPicture,startX + (j * width), startY + (i * width),this);
                     }
                 }
             }
