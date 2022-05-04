@@ -112,7 +112,7 @@ public class GameScreen extends JPanel{
                         g.drawString(Character.toString(game.getBoard().getPiece(i, j).getName()), startX + (j * width) + (width/2), startY + (i * width) + (width/2));
                         */
                         Toolkit t=Toolkit.getDefaultToolkit();
-                        Image myPicture = (t.getImage("src/" + game.getBoard().getPiece(i, j).getColor() + game.getBoard().getPiece(i, j).getName() + ".png"));
+                        Image myPicture = (t.getImage("src/Standard/" + game.getBoard().getPiece(i, j).getColor() + game.getBoard().getPiece(i, j).getName() + ".png"));
                         g.drawImage(myPicture,startX + (j * width), startY + (i * width),this);
                     }
                 }
