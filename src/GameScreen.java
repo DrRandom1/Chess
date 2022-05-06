@@ -16,7 +16,6 @@ public class GameScreen extends JPanel{
     int[] selectedMove;
     boolean current = true;
     JLabel black = new JLabel("Black"), white = new JLabel("White");
-    JLabel wKing, wQueen, wRook, wBishop;
     public GameScreen(Game game){
         this.game = game;
 
