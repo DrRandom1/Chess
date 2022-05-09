@@ -93,6 +93,7 @@ public class GameScreen extends JPanel{
             }
             if(selectedMove != null) {
                 PaintSelectedMove(g);
+            }
            if(game.getCurrentPlayer().isInCheck()){
                 PaintCheck(g);
             }
