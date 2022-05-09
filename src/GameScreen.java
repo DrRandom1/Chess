@@ -93,9 +93,19 @@ public class GameScreen extends JPanel{
             }
             if(selectedMove != null) {
                 PaintSelectedMove(g);
+           if(game.getCurrentPlayer().isInCheck()){
+                PaintCheck(g);
             }
         }
-
+        private void PaintCheck(Graphics g) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (game.getBoard().getPiece(i, j).getName() == 'k'&& game.getBoard().getPiece(i, j).getColor() == getCurrentPlayer().getColor()) {
+                        g.drawRect(startX + j + (getMoves().get(i).getColumn() * width), startY + j + (getMoves().get(i).getRow() * width), width - (j * 2), width - (j * 2));
+                    }
+                }
+            }
+        }
         private void paintAllPieces(Graphics g){
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
