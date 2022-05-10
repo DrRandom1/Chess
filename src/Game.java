@@ -20,7 +20,6 @@ public class Game {
     }
 
     public void makeMove(Move move){
-        //System.out.println("In game, "+ move.type);
         board.move(move);
         move.getPiece().hasMoved=true;
         if(currentPlayer==1){

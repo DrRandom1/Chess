@@ -6,28 +6,6 @@ public class Main {
 
     public static void main(String[] args) {
         GUI gui=new GUI();
-        Scanner scanner=new Scanner(System.in);
-        Board board=new Board();
-        Game game = new Game(board, new Player('w',board), new Player('b',board));
-        while (!game.isGameOver()){
-            game.getBoard().printBoardState();
-            System.out.println("Enter a location");
-            String input=scanner.nextLine();
-            while(parsePosition(input)==null
-                    ||board.getPiece(parsePosition(input))==null
-                    ||!board.getPiece(parsePosition(input)).canMove()
-                    ||game.getCurrentPlayer().getPieces().contains(board.getPiece(parsePosition(input)))
-            ){
-                System.out.println("Invalid Move");
-                input=scanner.nextLine();
-            }
-            ArrayList<Move> moves=board.getPiece(parsePosition(input)).getMoves();
-            for (int i = 0; i < moves.size(); i++) {
-                System.out.println((i+1)+". "+moves.get(i).getAmbiguousMoveNotation());
-            }
-            int moveSelection=scanner.nextInt();
-            game.makeMove(moves.get(moveSelection-1));
-        }
     }
     private static int [] parsePosition(String string){
         int[] position=new int[2];

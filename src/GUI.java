@@ -6,8 +6,8 @@ import java.awt.*;
 public class GUI {
     static JFrame frame;
     public static JPanel startScreen, gameScreen, endScreen;
-    public static Color white = new Color(248,240,227);
-    public static Color black = new Color(20,20,20);
+    public static Color white = new Color(236, 196, 132);
+    public static Color black = new Color(61, 6, 6);
     public static Color background = new Color(93, 30, 3);
     public static Color background2 = new Color(164, 104, 55);
     public GUI(){

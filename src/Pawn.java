@@ -66,13 +66,6 @@ public class Pawn extends Piece{
                 moves.add(newMove);
             }
         }
-        printAllMoves(moves);
         return moves;
-    }
-    private void printAllMoves(ArrayList<Move> moves){
-        System.out.println("     Printing Moves");
-        for (Move move : moves) {
-            System.out.println("     "+move.type);
-        }
     }
 }
