@@ -12,6 +12,7 @@ public class GameScreen extends JPanel{
 
     JPanel playBoard, infoBoard;
     Game game;
+    JLabel eval=new JLabel("Current Evaluation: 0.0");
     int[] selected;
     int[] selectedMove;
     boolean current = true;
@@ -30,6 +31,8 @@ public class GameScreen extends JPanel{
         infoBoard.setMinimumSize(new Dimension(550, 675));
         infoBoard.add(new JLabel("Current Player:"));
         infoBoard.add(white);
+        infoBoard.add(eval);
+
 
 
         c.weighty = 0;
@@ -67,6 +70,7 @@ public class GameScreen extends JPanel{
             infoBoard.remove(white);
             infoBoard.add(black);
         }
+        eval.setText("Current Evaluation: "+ComputerPlayer.evaluatePosition(game.getBoard()));
         infoBoard.updateUI();
     }
 
