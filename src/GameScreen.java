@@ -116,7 +116,9 @@ public class GameScreen extends JPanel{
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
                     if (game.getBoard().getPiece(i, j) != null && game.getBoard().getPiece(i, j).getName() == 'k'&& game.getBoard().getPiece(i, j).getColor() == getCurrentPlayer().getColor()) {
-                        g.drawRect(startX+i + (j * width), startY+i + (i * width),width-(i*2),width-(i*2));
+                        for(int k = 0; k<5; k++){
+                            g.drawRect(startX+k + (j * width), startY+k + (i * width),width-(k*2),width-(k*2));
+                        }
                     }
                 }
             }
