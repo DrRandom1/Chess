@@ -16,7 +16,7 @@ public class GameScreen extends JPanel{
     int[] selected;
     int[] selectedMove;
     boolean current = true;
-    JLabel black = new JLabel("Black"), white = new JLabel("White");
+    JLabel black = new JLabel("Current Player: Black"), white = new JLabel("Current Player: White");
     public GameScreen(Game game){
         this.game = game;
 
@@ -29,11 +29,9 @@ public class GameScreen extends JPanel{
 
         infoBoard = new JPanel();
         infoBoard.setMinimumSize(new Dimension(550, 675));
-        infoBoard.add(new JLabel("Current Player:"));
-        infoBoard.add(white);
+        //infoBoard.setLayout(new BoxLayout());
         infoBoard.add(eval);
-
-
+        infoBoard.add(white);
 
         c.weighty = 0;
         c.gridx = 0;
