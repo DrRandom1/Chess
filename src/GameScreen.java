@@ -46,9 +46,18 @@ public class GameScreen extends JPanel{
         this.add(infoBoard);
 
     }
+    
+    private void isGameOver(){
+        if(game.isGameOver()){
+            //GUI.endScreen = new endScreen(game.getGameWinner());
+            GUI.swapScreen(GUI.gameScreen, GUI.endScreen);
+        }
+    }
+    
     public Player getCurrentPlayer(){
         return game.getCurrentPlayer();
     }
+    
     private void updateInfoBoard(){
         if(getCurrentPlayer().getColor() == 'w'){
             infoBoard.remove(black);
@@ -94,19 +103,21 @@ public class GameScreen extends JPanel{
             if(selectedMove != null) {
                 PaintSelectedMove(g);
             }
-           if(game.getCurrentPlayer().isInCheck()){
+            if(game.getCurrentPlayer().isInCheck()){
                 PaintCheck(g);
             }
         }
         private void PaintCheck(Graphics g) {
+            g.setColor(Color.RED);
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
-                    if (game.getBoard().getPiece(i, j).getName() == 'k'&& game.getBoard().getPiece(i, j).getColor() == getCurrentPlayer().getColor()) {
-                        g.drawRect(startX + j + (getMoves().get(i).getColumn() * width), startY + j + (getMoves().get(i).getRow() * width), width - (j * 2), width - (j * 2));
+                    if (game.getBoard().getPiece(i, j) != null && game.getBoard().getPiece(i, j).getName() == 'k'&& game.getBoard().getPiece(i, j).getColor() == getCurrentPlayer().getColor()) {
+                        g.drawRect(startX+i + (j * width), startY+i + (i * width),width-(i*2),width-(i*2));
                     }
                 }
             }
         }
+
         private void paintAllPieces(Graphics g){
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -136,9 +147,6 @@ public class GameScreen extends JPanel{
                 }
             }
         }
-        private ArrayList<Move> getMoves(){
-            return game.getBoard().getPiece(selected).getMoves();
-        }
 
         private void paintSelectedPeice(Graphics g){
             if(selected[0] >= 0 && selected[1] >= 0 && game.getBoard().getPiece(selected[0],selected[1]) != null){
@@ -159,6 +167,10 @@ public class GameScreen extends JPanel{
                 }
                 g.drawRect(startX + (selectedMove[1] * width), startY + (selectedMove[0] * width),width,width);
             }
+        }
+
+        private ArrayList<Move> getMoves(){
+            return game.getBoard().getPiece(selected).getMoves();
         }
 
         private int[] posClicked(int x, int y){
@@ -187,6 +199,7 @@ public class GameScreen extends JPanel{
             selectedMove = null;
             current = !current;
             this.repaint();
+            isGameOver();
         }
         public void mouseClicked(MouseEvent e) {
             if(game.getBoard().getPiece(posClicked(e.getX(), e.getY())) != null && getCurrentPlayer().getColor() == game.getBoard().getPiece(posClicked(e.getX(), e.getY())).getColor()) {
