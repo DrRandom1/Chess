@@ -20,7 +20,7 @@ public class Game {
     }
 
     public void makeMove(Move move){
-        System.out.println("In game, "+ move.type);
+        //System.out.println("In game, "+ move.type);
         board.move(move);
         move.getPiece().hasMoved=true;
         if(currentPlayer==1){
@@ -32,10 +32,6 @@ public class Game {
     }
     public boolean isGameOver(){
         for (int i = 0; i < 2; i++) {
-            if (players[i].getPieces().size()==0){
-                System.out.println("out of pieces");
-                return true;
-            }
             if (players[i].getMovablePieces().size()==0){
                 System.out.println("out of moves");
                 return true;
@@ -43,6 +39,15 @@ public class Game {
 
         }
         return false;
+    }
+    public int winningPlayer(){//ONLY CALL THIS WHEN GAME IS OVER
+        for (int i = 0; i < 2; i++) {
+            if (players[i].getMovablePieces().size()==0){
+                return i==0?1:0;
+            }
+
+        }
+        return 2;
     }
     public Board getBoard(){
         return board;
