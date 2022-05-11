@@ -198,7 +198,14 @@ public class GameScreen extends JPanel{
             return false;
         }
         private void movePeice(){
-            game.makeMove(new Move(game.getBoard().getPiece(selected[0],selected[1]), selectedMove));
+            selectedMoveKey=0;
+            for (int i = 0; i < game.getBoard().getPiece(selected[0],selected[1]).getMoves().size(); i++) {
+                Move move=game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(i);
+                if(move.getPosition()[0]==selectedMove[0]&&move.getPosition()[1]==selectedMove[1]){
+                    selectedMoveKey=i;
+                }
+            }
+            game.makeMove(game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(selectedMoveKey));
             selected = null;
             selectedMove = null;
             current = !current;
