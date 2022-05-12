@@ -1,22 +1,13 @@
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-public class GameScreen extends JPanel{
+ipublic class GameScreen extends JPanel{
 
     JPanel playBoard, infoBoard;
     Game game;
     JLabel eval=new JLabel("Current Evaluation: 0.0");
+    JLabel bestMove=new JLabel("Null");
     int[] selected;
     int[] selectedMove;
     boolean current = true;
-    JLabel black = new JLabel("Current Player: Black"), white = new JLabel("Current Player: White");
+    JLabel black = new JLabel("Black"), white = new JLabel("White");
     public GameScreen(Game game){
         this.game = game;
 
@@ -28,10 +19,14 @@ public class GameScreen extends JPanel{
         playBoard.setBackground(GUI.background);
 
         infoBoard = new JPanel();
+        infoBoard.setLayout(new GridLayout(4,1));
         infoBoard.setMinimumSize(new Dimension(550, 675));
-        //infoBoard.setLayout(new BoxLayout());
-        infoBoard.add(eval);
+        infoBoard.add(new JLabel("Current Player:"));
         infoBoard.add(white);
+        infoBoard.add(eval);
+        infoBoard.add(bestMove);
+
+
 
         c.weighty = 0;
         c.gridx = 0;
@@ -45,7 +40,6 @@ public class GameScreen extends JPanel{
         c.ipadx = 640;
         c.ipady = 675;
         this.add(infoBoard);
-
 
     }
     
@@ -70,9 +64,11 @@ public class GameScreen extends JPanel{
             infoBoard.add(black);
         }
         eval.setText("Current Evaluation: "+ComputerPlayer.evaluatePosition(game.getBoard()));
+        bestMove.setText(new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getName()+""+
+                (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getPosition())))+", "+
+                (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPosition()))));
         infoBoard.updateUI();
     }
-
     private class chessBoard extends JPanel implements MouseListener {
         int startX = 40;
         int startY = 41;
