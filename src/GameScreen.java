@@ -46,6 +46,7 @@ public class GameScreen extends JPanel{
         c.ipady = 675;
         this.add(infoBoard);
 
+
     }
     
     private void isGameOver(){
@@ -99,15 +100,35 @@ public class GameScreen extends JPanel{
                 }
             }
             paintAllPieces(g);
+            if(game.getCurrentPlayer().isInCheck()){
+                PaintCheck(g);
+            }
             if(selected != null) {
                 paintSelectedPeice(g);
             }
             if(selectedMove != null) {
                 PaintSelectedMove(g);
             }
-            if(game.getCurrentPlayer().isInCheck()){
-                PaintCheck(g);
+            paintComputer(g);
+        }
+        private void paintComputer(Graphics g) {
+            g.setColor(Color.GREEN);
+            int c;
+            if(game.getPlayers()[0] instanceof ComputerPlayer){
+                c = 0;
             }
+            else if(game.getPlayers()[1] instanceof ComputerPlayer){
+                c = 1;
+            }
+            else {
+                return;
+            }
+            int i = ((ComputerPlayer) game.getPlayers()[c]).getMove().getRow();
+            int j = ((ComputerPlayer) game.getPlayers()[c]).getMove().getColumn();
+            for(int k = 0; k<5; k++){
+                g.drawRect(startX+k + (j * width), startY+k + (i * width),width-(k*2),width-(k*2));
+            }
+
         }
         private void PaintCheck(Graphics g) {
             g.setColor(Color.RED);
@@ -198,7 +219,7 @@ public class GameScreen extends JPanel{
             return false;
         }
         private void movePeice(){
-            selectedMoveKey=0;
+           int selectedMoveKey = 0;
             for (int i = 0; i < game.getBoard().getPiece(selected[0],selected[1]).getMoves().size(); i++) {
                 Move move=game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(i);
                 if(move.getPosition()[0]==selectedMove[0]&&move.getPosition()[1]==selectedMove[1]){
@@ -211,6 +232,13 @@ public class GameScreen extends JPanel{
             current = !current;
             this.repaint();
             isGameOver();
+            if(getCurrentPlayer() instanceof ComputerPlayer){
+                selectedMove = ((ComputerPlayer) getCurrentPlayer()).getMove().getPosition();
+                selected = ((ComputerPlayer) getCurrentPlayer()).getMove().getPiece().getPosition();
+                movePeice();
+                this.repaint();
+                updateInfoBoard();
+            }
         }
         public void mouseClicked(MouseEvent e) {
             if(game.getBoard().getPiece(posClicked(e.getX(), e.getY())) != null && getCurrentPlayer().getColor() == game.getBoard().getPiece(posClicked(e.getX(), e.getY())).getColor()) {
