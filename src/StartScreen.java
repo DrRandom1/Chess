@@ -95,12 +95,12 @@ public class StartScreen extends JPanel implements ActionListener {
         Player[] players = new Player[2];
         if(onePlayer){
             if(pOneWhite){
-                players[1] = new HumanPlayer('b',board);
-                players[0] = new Player('w',board);
+                players[1] = new ComputerPlayer('b',board);
+                players[0] = new HumanPlayer('w',board);
             }
             else{
-                players[1] = new Player('b',board);
-                players[0] = new HumanPlayer('w',board);
+                players[1] = new HumanPlayer('b',board);
+                players[0] = new ComputerPlayer('w',board);
             }
 
         }
