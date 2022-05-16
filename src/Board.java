@@ -103,20 +103,8 @@ public class Board {
     public Piece move(Move move){
         //return captured piece
         Piece captured = clear(move.getPosition());
-//        if (recursionDepth==0){
-//            System.out.println(move.type);
-//            System.out.println(Arrays.toString(move.getPosition()));
-//            System.out.println(Arrays.toString(move.getPiece().getPosition()));
-//            printBoardState();
-//        }
         if(move.type=='e'){
             captured=clear(move.getPiece().getRow(),move.getColumn());
-//            if (recursionDepth==0) {
-//                System.out.println(captured);
-//                printBoardState();
-//                System.out.println(move.getRow() - ((Pawn) move.getPiece()).colorMultiplier + ", " + move.getColumn());
-//                System.out.println(captured.getName());
-//            }
         }
 
 
@@ -132,6 +120,9 @@ public class Board {
             if(move.getColumn()==1){
                 board[move.getRow()][2]=clear(new int[]{move.getRow(),0});
             }
+        }
+        if (recursionDepth==0){
+            printBoardState();
         }
         return captured;
     }
@@ -170,5 +161,26 @@ public class Board {
     public Move getLastMove(){
         return lastMove;
     }
+    public ArrayList<Piece>  getPiecesOnBoard(){
+        ArrayList<Piece> pieces=new ArrayList<Piece>();
+        for (Piece[] row : board) {
+            for (Piece piece :row ) {
+                if(piece!=null){
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
+    }
+    public ArrayList<Piece>  getPiecesOnBoard(char color){
+        ArrayList<Piece> pieces=new ArrayList<Piece>();
+        for (Piece[] row : board) {
+            for (Piece piece :row ) {
+                if(piece!=null&&piece.getColor()==color){
+                    pieces.add(piece);
+                }
+            }
+        }
+        return pieces;
+    }
 }
-
