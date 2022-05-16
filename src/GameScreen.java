@@ -120,8 +120,8 @@ public class GameScreen extends JPanel implements ActionListener{
         public chessBoard(){
             addMouseListener(this);
             if(game.getPlayers()[0] instanceof ComputerPlayer){
-                selectedMove = ((ComputerPlayer) getCurrentPlayer()).getMove().getPosition();
-                selected = ((ComputerPlayer) getCurrentPlayer()).getMove().getPiece().getPosition();
+                selectedMove = ((ComputerPlayer) getCurrentPlayer()).findBestMove().getPosition();
+                selected = ((ComputerPlayer) getCurrentPlayer()).findBestMove().getPiece().getPosition();
                 movePeice();
                 this.repaint();
                 updateInfoBoard();
@@ -170,8 +170,8 @@ public class GameScreen extends JPanel implements ActionListener{
             else {
                 return;
             }
-            int i = ((ComputerPlayer) game.getPlayers()[c]).getMove().getRow();
-            int j = ((ComputerPlayer) game.getPlayers()[c]).getMove().getColumn();
+            int i = ((ComputerPlayer) game.getPlayers()[c]).findBestMove().getRow();
+            int j = ((ComputerPlayer) game.getPlayers()[c]).findBestMove().getColumn();
             for(int k = 0; k<5; k++){
                 g.drawRect(startX+k + (j * width), startY+k + (i * width),width-(k*2),width-(k*2));
             }
@@ -278,10 +278,10 @@ public class GameScreen extends JPanel implements ActionListener{
             selectedMove = null;
             current = !current;
             this.repaint();
-            isGameOver();
+            //isGameOver();
             if(getCurrentPlayer() instanceof ComputerPlayer){
-                selectedMove = ((ComputerPlayer) getCurrentPlayer()).getMove().getPosition();
-                selected = ((ComputerPlayer) getCurrentPlayer()).getMove().getPiece().getPosition();
+                selectedMove = ((ComputerPlayer) getCurrentPlayer()).findBestMove().getPosition();
+                selected = ((ComputerPlayer) getCurrentPlayer()).findBestMove().getPiece().getPosition();
                 movePeice();
                 this.repaint();
                 updateInfoBoard();
