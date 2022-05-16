@@ -1,13 +1,23 @@
-ipublic class GameScreen extends JPanel{
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-    JPanel playBoard, infoBoard;
+public class GameScreen extends JPanel implements ActionListener{
+
+    JPanel playBoard, infoBoard, text;
     Game game;
-    JLabel eval=new JLabel("Current Evaluation: 0.0");
-    JLabel bestMove=new JLabel("Null");
+    JLabel eval=new JLabel("Current Evaluation: 0.0",SwingConstants.CENTER);
+    JLabel bestMove=new JLabel("Null",SwingConstants.CENTER);
+    JButton back;
     int[] selected;
     int[] selectedMove;
     boolean current = true;
-    JLabel black = new JLabel("Black"), white = new JLabel("White");
+    JLabel black = new JLabel("Current Player: Black",SwingConstants.CENTER), white = new JLabel("Current Player: White",SwingConstants.CENTER);
     public GameScreen(Game game){
         this.game = game;
 
@@ -15,16 +25,30 @@ ipublic class GameScreen extends JPanel{
         this.setBackground(GUI.background);
         GridBagConstraints c = new GridBagConstraints();
 
+        infoBoard = new JPanel();
+        text = new JPanel();
         playBoard = new chessBoard();
         playBoard.setBackground(GUI.background);
 
-        infoBoard = new JPanel();
-        infoBoard.setLayout(new GridLayout(4,1));
+        back = new JButton("Back to Menu");
+        back.addActionListener(this);
+
+
+        text.setLayout(new GridLayout(3,1));
+        text.add(eval);
+        text.add(bestMove);
+        text.add(white);
+
         infoBoard.setMinimumSize(new Dimension(550, 675));
-        infoBoard.add(new JLabel("Current Player:"));
-        infoBoard.add(white);
-        infoBoard.add(eval);
-        infoBoard.add(bestMove);
+        infoBoard.setLayout(new GridBagLayout());
+        c.ipadx = 470;
+        c.ipady = 500;
+        c.gridx = 0;
+        c.gridy = 0;
+        infoBoard.add(text,c);
+        c.gridy = 1;
+        c.ipady = 100;
+        infoBoard.add(back,c);
 
 
 
@@ -41,12 +65,23 @@ ipublic class GameScreen extends JPanel{
         c.ipady = 675;
         this.add(infoBoard);
 
+
     }
     
     private void isGameOver(){
         if(game.isGameOver()){
-            //GUI.endScreen = new endScreen(game.getGameWinner());
-            GUI.swapScreen(GUI.gameScreen, GUI.endScreen);
+            GUI.endScreen = new JFrame("Win");
+            GUI.endScreen.setSize(500,200);
+            String win;
+            if(game.getPlayers()[game.winningPlayer()].getColor() == 'w'){
+                win = "White";
+            }
+            else{
+                win = "Black";
+            }
+            GUI.endScreen.add(new JLabel(win + " Wins!!!!",SwingConstants.CENTER));
+            GUI.endScreen.setVisible(true);
+            playBoard.setFocusable(false);
         }
     }
     
@@ -56,25 +91,38 @@ ipublic class GameScreen extends JPanel{
     
     private void updateInfoBoard(){
         if(getCurrentPlayer().getColor() == 'w'){
-            infoBoard.remove(black);
-            infoBoard.add(white);
+            text.remove(black);
+            text.add(white);
         }
         else{
-            infoBoard.remove(white);
-            infoBoard.add(black);
+            text.remove(white);
+            text.add(black);
         }
         eval.setText("Current Evaluation: "+ComputerPlayer.evaluatePosition(game.getBoard()));
-        bestMove.setText(new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getName()+""+
-                (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getPosition())))+", "+
-                (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPosition()))));
+        //bestMove.setText(new ComputerPlayer(getCurrentPlayer().getColor(), game.getBoard()).getBestMove().getPiece().getName()+""+
+        //        (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getPosition())))+", "+
+        //        (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPosition()))));
         infoBoard.updateUI();
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        GUI.swapScreen(this,GUI.startScreen);
+    }
+
     private class chessBoard extends JPanel implements MouseListener {
         int startX = 40;
         int startY = 41;
         int width = 75;
         public chessBoard(){
             addMouseListener(this);
+            if(game.getPlayers()[0] instanceof ComputerPlayer){
+                selectedMove = ((ComputerPlayer) getCurrentPlayer()).getMove().getPosition();
+                selected = ((ComputerPlayer) getCurrentPlayer()).getMove().getPiece().getPosition();
+                movePeice();
+                this.repaint();
+                updateInfoBoard();
+            }
         }
 
         protected void paintComponent(Graphics g) {
