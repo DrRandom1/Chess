@@ -17,20 +17,75 @@ public class ComputerPlayer extends Player{
         Piece piece =getMovablePieces().get(randomPiece);
         return piece.getMoves().get(random.nextInt(piece.getMoves().size()));
     }
-    public Move findBestMove(int depth){
+    public Move findBestMove(){
+        int depth=2;
+        double bestEval=0;
         Move bestMove=null;
-        if (depth==0){
-            bestMove=getBestMove();
-        } else{
+        if (getColor()=='w'){
             HashMap<Move, Double> moves=new HashMap<>();
             for (Piece piece: board.getPiecesOnBoard(this.getColor())) {
                 for (Move move : piece.getMoves()) {
-                    moves.put(move,evaluatePosition(new Board(board,move)));
+                    moves.put(move, findBestMove(new Board(board, move),  depth- 1));
                 }
             }
-            bestMove=findBestMove(depth-1);
+            bestEval=-1000;
+            for (Move move : moves.keySet()) {
+                if(moves.get(move)>bestEval){
+                    bestEval=moves.get(move);
+                    bestMove=move;
+                }
+            }
+
+        } else {
+            HashMap<Move, Double> moves=new HashMap<>();
+            for (Piece piece: board.getPiecesOnBoard(this.getColor())) {
+                for (Move move : piece.getMoves()) {
+                    moves.put(move, findBestMove(new Board(board, move),  depth- 1));
+                }
+            }
+            bestEval=1000;
+            for (Move move : moves.keySet()) {
+                if(moves.get(move)<bestEval){
+                    bestEval=moves.get(move);
+                    bestMove=move;
+                }
+            }
         }
         return bestMove;
+    }
+    public double findBestMove(Board currentBoard, int depth){
+        double bestEval=0;
+        if (depth==0){
+            bestEval=evaluatePosition(new Board(currentBoard, getBestMove()));
+        } else if (depth%2==0){
+            HashMap<Move, Double> moves=new HashMap<>();
+            for (Piece piece: board.getPiecesOnBoard(this.getColor())) {
+                for (Move move : piece.getMoves()) {
+                    moves.put(move, findBestMove(new Board(currentBoard, move), depth - 1));
+                }
+            }
+            bestEval=-1000;
+            for (Move move : moves.keySet()) {
+                if(moves.get(move)>bestEval){
+                    bestEval=moves.get(move);
+                }
+            }
+
+        } else {
+            HashMap<Move, Double> moves=new HashMap<>();
+            for (Piece piece: board.getPiecesOnBoard(this.getColor())) {
+                for (Move move : piece.getMoves()) {
+                    moves.put(move, findBestMove(new Board(currentBoard, move), depth - 1));
+                }
+            }
+            bestEval=1000;
+            for (Move move : moves.keySet()) {
+                if(moves.get(move)<bestEval){
+                    bestEval=moves.get(move);
+                }
+            }
+        }
+        return bestEval;
     }
     public Move getBestMove() {
         HashMap<Move, Double> moves=new HashMap<>();
