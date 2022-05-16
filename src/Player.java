@@ -7,8 +7,10 @@ public class Player {
         return pieces;
     }
     public boolean isComputerPlayer=false;
+    public final Board board;
     public Player(char color,Board board){
         this.color=color;
+        this.board=board;
         for (Piece piece : board.getPieces()) {
             if (piece.getColor()==color){
                 pieces.add(piece);
