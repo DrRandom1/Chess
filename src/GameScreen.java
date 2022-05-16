@@ -32,12 +32,15 @@ public class GameScreen extends JPanel implements ActionListener{
 
         back = new JButton("Back to Menu");
         back.addActionListener(this);
+        back.setBackground(GUI.white);
+        back.setForeground(GUI.black);
 
 
         text.setLayout(new GridLayout(3,1));
         text.add(eval);
         text.add(bestMove);
         text.add(white);
+        text.setBackground(GUI.background2);
 
         infoBoard.setMinimumSize(new Dimension(550, 675));
         infoBoard.setLayout(new GridBagLayout());
@@ -133,10 +136,10 @@ public class GameScreen extends JPanel implements ActionListener{
                 color = !color;
                 for (int j = 0; j < 8; j++) {
                     if(color) {
-                        g.setColor(Color.black);
+                        g.setColor(GUI.black);
                         color = false;
                     } else {
-                        g.setColor(Color.WHITE);
+                        g.setColor(GUI.white);
                         color = true;
                     }
                     g.fillRect(startX + (j * width), startY + (i * width), width, width);
