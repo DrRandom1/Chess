@@ -23,7 +23,7 @@ public class Pawn extends Piece{
 
         if(board.getPiece(row+colorMultiplier,column)==null){
             Move newMove=new Move(this,row+colorMultiplier,column);
-            if(Math.abs(colorMultiplier+1)*4==row+colorMultiplier){
+            if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
             } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
@@ -38,7 +38,7 @@ public class Pawn extends Piece{
         //capture
         if(column-1>=0&&board.getPiece(row+colorMultiplier,column-1)!=null&&board.getPiece(row+colorMultiplier,column-1).getColor()!=getColor()){
             Move newMove=(new Move(this,row+colorMultiplier,column-1));
-            if(Math.abs(colorMultiplier+1)*4==row+colorMultiplier){
+            if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
             } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
@@ -46,7 +46,7 @@ public class Pawn extends Piece{
         }
         if(column+1<8&&board.getPiece(row+colorMultiplier,column+1)!=null&&board.getPiece(row+colorMultiplier,column+1).getColor()!=getColor()){
             Move newMove=(new Move(this,row+colorMultiplier,column+1));
-            if(Math.abs(colorMultiplier+1)*4==row+colorMultiplier){
+            if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
             } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
@@ -58,12 +58,14 @@ public class Pawn extends Piece{
             EnPassant newMove=(new EnPassant(this,row+colorMultiplier,column-1));
             if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
+                System.out.println(newMove.type);
             }
         }
         if(board.getLastMove()!=null&&column+1<8&&board.getPiece(row,column+1)==board.getLastMove().getPiece()&&board.getLastMove().isPawnDoubleMove()){
             EnPassant newMove=(new EnPassant(this,row+colorMultiplier,column+1));
             if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
+                System.out.println(newMove.type);
             }
         }
         return moves;
