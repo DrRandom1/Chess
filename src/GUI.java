@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GUI {
-    static JFrame frame;
-    public static JPanel startScreen, gameScreen, endScreen;
+    static JFrame frame, endScreen;
+    public static JPanel startScreen, gameScreen;
     public static Color white = new Color(236, 196, 132);
     public static Color black = new Color(61, 6, 6);
     public static Color background = new Color(93, 30, 3);

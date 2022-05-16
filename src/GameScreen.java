@@ -154,9 +154,9 @@ public class GameScreen extends JPanel implements ActionListener{
                 paintSelectedPeice(g);
             }
             if(selectedMove != null) {
-                PaintSelectedMove(g);
+                //PaintSelectedMove(g);
             }
-            paintComputer(g);
+            //paintComputer(g);
         }
         private void paintComputer(Graphics g) {
             g.setColor(Color.GREEN);
@@ -213,7 +213,7 @@ public class GameScreen extends JPanel implements ActionListener{
         }
         private void paintAvailableMoves(Graphics g){
             for(int i = 0; i < getMoves().size(); i++){
-                g.setColor(Color.pink);
+                g.setColor(Color.blue);
                 for(int j = 0; j < 5; j++) {
                     g.drawRect(startX + j + (getMoves().get(i).getColumn() * width), startY + j + (getMoves().get(i).getRow() * width), width - (j * 2), width - (j * 2));
                 }
