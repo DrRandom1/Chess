@@ -48,13 +48,13 @@ public class StartScreen extends JPanel implements ActionListener {
             colorSelect[i].setForeground(Color.WHITE);
             switch(i){
                 case(0): numPlayers[0].setBackground(GUI.black);
-                         colorSelect[0].setBackground(GUI.black);
-                         numPlayers[0].setForeground(GUI.white);
-                         colorSelect[0].setForeground(GUI.white);
+                    colorSelect[0].setBackground(GUI.black);
+                    numPlayers[0].setForeground(GUI.white);
+                    colorSelect[0].setForeground(GUI.white);
                 case(1): numPlayers[1].setBackground(GUI.white);
-                         colorSelect[1].setBackground(GUI.white);
-                         numPlayers[1].setForeground(GUI.black);
-                         colorSelect[1].setForeground(GUI.black);
+                    colorSelect[1].setBackground(GUI.white);
+                    numPlayers[1].setForeground(GUI.black);
+                    colorSelect[1].setForeground(GUI.black);
             }
         }
         selection.add(numPlayers[0]);

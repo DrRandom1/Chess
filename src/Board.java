@@ -121,9 +121,9 @@ public class Board {
                 board[move.getRow()][2]=clear(new int[]{move.getRow(),0});
             }
         }
-        if (recursionDepth==0){
+        /*if (recursionDepth==0){
             printBoardState();
-        }
+        }*/
         return captured;
     }
 

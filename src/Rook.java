@@ -18,8 +18,9 @@ public class Rook extends Piece {
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())){
                 Move newMove=new Move(this,row+counter*key[0],column+counter*key[1]);
-                if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
-                    moves.add(new Move(this,row+counter*key[0],column+counter*key[1]));
+
+                if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+                    moves.add(newMove);
                 }
                 if(board.getPiece(row+counter*key[0],column+counter*key[1])!=null&&board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor()){
                     counter+=9;

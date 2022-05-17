@@ -3,11 +3,11 @@ import java.util.ArrayList;
 public class Player {
     private final ArrayList<Piece> pieces=new ArrayList<Piece>();
     private final char color;
-    public final Board board;
     public ArrayList<Piece> getPieces(){
         return pieces;
     }
     public boolean isComputerPlayer=false;
+    public final Board board;
     public Player(char color,Board board){
         this.color=color;
         this.board=board;

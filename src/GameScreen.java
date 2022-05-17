@@ -70,7 +70,7 @@ public class GameScreen extends JPanel implements ActionListener{
 
 
     }
-    
+
     private void isGameOver(){
         if(game.isGameOver()){
             GUI.endScreen = new JFrame("Win");
@@ -87,11 +87,11 @@ public class GameScreen extends JPanel implements ActionListener{
             playBoard.setFocusable(false);
         }
     }
-    
+
     public Player getCurrentPlayer(){
         return game.getCurrentPlayer();
     }
-    
+
     private void updateInfoBoard(){
         if(getCurrentPlayer().getColor() == 'w'){
             text.remove(black);
@@ -101,7 +101,7 @@ public class GameScreen extends JPanel implements ActionListener{
             text.remove(white);
             text.add(black);
         }
-        eval.setText("Current Evaluation: "+ComputerPlayer.evaluatePosition(game.getBoard()));
+        //eval.setText("Current Evaluation: "+new ComputerPlayer(new Board()).evaluatePosition(game.getBoard()));
         //bestMove.setText(new ComputerPlayer(getCurrentPlayer().getColor(), game.getBoard()).getBestMove().getPiece().getName()+""+
         //        (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPiece().getPosition())))+", "+
         //        (Arrays.toString((new ComputerPlayer(getCurrentPlayer().getColor(), getCurrentPlayer().board).getBestMove().getPosition()))));
@@ -154,29 +154,10 @@ public class GameScreen extends JPanel implements ActionListener{
                 paintSelectedPeice(g);
             }
             if(selectedMove != null) {
-                //PaintSelectedMove(g);
+                PaintSelectedMove(g);
             }
-            //paintComputer(g);
         }
-        private void paintComputer(Graphics g) {
-            g.setColor(Color.GREEN);
-            int c;
-            if(game.getPlayers()[0] instanceof ComputerPlayer){
-                c = 0;
-            }
-            else if(game.getPlayers()[1] instanceof ComputerPlayer){
-                c = 1;
-            }
-            else {
-                return;
-            }
-            int i = ((ComputerPlayer) game.getPlayers()[c]).findBestMove().getRow();
-            int j = ((ComputerPlayer) game.getPlayers()[c]).findBestMove().getColumn();
-            for(int k = 0; k<5; k++){
-                g.drawRect(startX+k + (j * width), startY+k + (i * width),width-(k*2),width-(k*2));
-            }
 
-        }
         private void PaintCheck(Graphics g) {
             g.setColor(Color.RED);
             for (int i = 0; i < 8; i++) {
@@ -213,7 +194,7 @@ public class GameScreen extends JPanel implements ActionListener{
         }
         private void paintAvailableMoves(Graphics g){
             for(int i = 0; i < getMoves().size(); i++){
-                g.setColor(Color.blue);
+                g.setColor(Color.pink);
                 for(int j = 0; j < 5; j++) {
                     g.drawRect(startX + j + (getMoves().get(i).getColumn() * width), startY + j + (getMoves().get(i).getRow() * width), width - (j * 2), width - (j * 2));
                 }
@@ -266,7 +247,7 @@ public class GameScreen extends JPanel implements ActionListener{
             return false;
         }
         private void movePeice(){
-           int selectedMoveKey = 0;
+            int selectedMoveKey = 0;
             for (int i = 0; i < game.getBoard().getPiece(selected[0],selected[1]).getMoves().size(); i++) {
                 Move move=game.getBoard().getPiece(selected[0],selected[1]).getMoves().get(i);
                 if(move.getPosition()[0]==selectedMove[0]&&move.getPosition()[1]==selectedMove[1]){

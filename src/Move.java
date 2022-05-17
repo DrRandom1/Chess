@@ -1,5 +1,5 @@
 public class Move {
-    protected char type;
+    public char type;
     private final int[] position;
     private final int[] initialPos;
     private final Piece piece;
@@ -72,6 +72,7 @@ class Castle extends Move{
         this.type='c';
     }
 }
+
 class Promotion extends Move{
     public Promotion(Piece piece, int[] position) {
         super(piece, position);

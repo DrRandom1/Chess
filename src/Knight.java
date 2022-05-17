@@ -16,7 +16,7 @@ public class Knight extends Piece{
             if(row+key[0]>=0&&row+key[0]<8&&column+key[1]>=0&&column+key[1]<8
                     &&(board.getPiece(row+key[0],column+key[1])==null||board.getPiece(row+key[0],column+key[1]).getColor()!=this.getColor())){
                 Move newMove=new Move(this,row+key[0],column+key[1]);;
-                if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+                if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                     moves.add(newMove);
                 }
 

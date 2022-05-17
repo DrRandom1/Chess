@@ -60,8 +60,8 @@ public class King extends Piece{
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
                     ||(board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor()
-                    &&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b')
-                    ||board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q'))) {
+                    &&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
+                    ||board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')))) {
                 if(board.getPiece(row+counter*key[0],column+counter*key[1])!=null
                         &&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='b'
                         ||board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')){
@@ -76,7 +76,9 @@ public class King extends Piece{
             int counter=1;
             while(row+counter*key[0]>=0&&row+counter*key[0]<8&&column+counter*key[1]>=0&&column+counter*key[1]<8
                     &&(board.getPiece(row+counter*key[0],column+counter*key[1])==null
-                    ||board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor())) {
+                    ||(board.getPiece(row+counter*key[0],column+counter*key[1]).getColor()!=this.getColor()
+                    &&(board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='r'
+                    ||board.getPiece(row+counter*key[0],column+counter*key[1]).getName()=='q')))) {
                 if((board.getPiece(row+counter*key[0],column+counter*key[1])!=null
                         &&(board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'r'
                         ||board.getPiece(row + counter * key[0], column + counter * key[1]).getName() == 'q'))){
@@ -91,7 +93,7 @@ public class King extends Piece{
                     &&(board.getPiece(row+key[0],column+key[1])!=null
                     &&board.getPiece(row+key[0],column+key[1]).getColor()!=this.getColor())
                     &&board.getPiece(row+key[0],column+key[1]).getName()=='n'){
-                return true;
+                    return true;
             }
         }
         if(getColor()=='w'){

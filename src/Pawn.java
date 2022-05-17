@@ -25,12 +25,13 @@ public class Pawn extends Piece{
             Move newMove=new Move(this,row+colorMultiplier,column);
             if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
-            } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+            } else if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
             }
             if (!hasMoved&&board.getPiece(row+colorMultiplier,column)==null&&board.getPiece(row+2*colorMultiplier,column)==null){
                 Move newMove1=new Move(this,row+2*colorMultiplier,column);
-                if(!new Board(board,newMove1).getKing(this.getColor()).isInCheck()){
+
+                if(new Board(board,newMove1).getKing(this.getColor())!=null&&!new Board(board,newMove1).getKing(this.getColor()).isInCheck()){
                     moves.add(newMove1);
                 }
             }
@@ -40,7 +41,7 @@ public class Pawn extends Piece{
             Move newMove=(new Move(this,row+colorMultiplier,column-1));
             if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
-            } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+            } else if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
             }
         }
@@ -48,7 +49,7 @@ public class Pawn extends Piece{
             Move newMove=(new Move(this,row+colorMultiplier,column+1));
             if(Math.abs(colorMultiplier+1)*3.5==row+colorMultiplier){
                 moves.add(new Promotion(newMove));
-            } else if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+            } else if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
             }
         }
@@ -56,16 +57,14 @@ public class Pawn extends Piece{
         //en croissant
         if(board.getLastMove()!=null&&column-1>=0&&board.getPiece(row,column-1)==board.getLastMove().getPiece()&&board.getLastMove().isPawnDoubleMove()){
             EnPassant newMove=(new EnPassant(this,row+colorMultiplier,column-1));
-            if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+            if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
-                System.out.println(newMove.type);
             }
         }
         if(board.getLastMove()!=null&&column+1<8&&board.getPiece(row,column+1)==board.getLastMove().getPiece()&&board.getLastMove().isPawnDoubleMove()){
             EnPassant newMove=(new EnPassant(this,row+colorMultiplier,column+1));
-            if(!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
+            if(new Board(board,newMove).getKing(this.getColor())!=null&&!new Board(board,newMove).getKing(this.getColor()).isInCheck()){
                 moves.add(newMove);
-                System.out.println(newMove.type);
             }
         }
         return moves;
